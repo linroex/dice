@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dice</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.css">
+    <meta name = "viewport" content = "user-scalable=no, width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="jquery-1.10.2.min.js"></script>
+    <style>
+        #number{
+            margin-top: -45px;
+            font-size: 1600%;
+            text-align: center;
+
+        }
+        #start{
+            font-size: 200%;
+            width: 90%;
+            margin-left: 5%;
+            margin-top:-40px;
+        }
+        #info{
+            font-size: 200%;
+            width: 90%;
+            margin-left: 5%;
+            margin-top: 15px;
+        }
+        #header {
+            font-size: 200%;
+            width: 90%;
+            margin-left: 5%;
+            margin-top: -10px;
+        }
+        body{
+            margin-top:25px;
+        }
+    </style>
+    <script>
+
+        function getRnd(min, max){
+            return Math.round(Math.random()*(max-min)+min);
+        }
+
+        function changeNum(){
+            $("#number").html(getRnd(1,40));
+        }
+        // var num = '';
+        // var flag = false;
+        // var start_flag = false;
+        var min = 1;
+        var max = 8;
+        $(document).ready(function(){
+            $(".num").text(max-min+1);
+            // $('body').keypress(function(e){
+            //     console.log(e.which);
+            //     if(!(e.which <=57 && e.which>=48)){
+            //         if(!(e.which == 32 || e.which == 13)){
+            //             num = '';
+            //             flag = false;
+            //             start_flag = false; 
+            //         }
+            //     }
+            //     if(e.which == 32){
+            //         flag = true;    //開始計數
+            //         start_flag = false;
+            //     }else if(e.which == 13){
+            //         if(num.trim() != ''){
+            //             flag = false;
+            //             start_flag = true;
+            //         }
+                    
+                    
+            //     }
+            //     if(flag == true){
+            //         num = num.concat(String.fromCharCode(e.which));
+            //     }else if(start_flag == true){
+            //         var timer = setInterval("changeNum()",50);
+                    
+            //         setTimeout(function(){
+            //             clearInterval(timer);    
+            //             $("#number").html(num);
+            //             num = '';   
+            //             flag = false;
+            //             start_flag = false; 
+            //         },1000);
+            //     }
+            // })
+
+            // 記得改這裡
+            var num = [1,2,3,4,5,6,7,8];
+            for(var i = 0; i <= 100; i++ ) {
+                var targetA = getRnd(min,max)-1;
+                var targetB = getRnd(min,max)-1;         
+                var temp = num[targetA];
+                num[targetA] = num[targetB];
+                num[targetB] = temp;
+            }
+            var tt = 0;
+            $("#start").click(function(){
+
+                $("#number").css('margin-top','20px');
+                $("#start").css('margin-bottom','40px');
+                document.title = "第" + (tt + min) + "次";
+                $('#info').html(( max - (tt + min) ) + " Team Left" );
+                if(tt > (max-2)){
+                    
+                    $("#start").attr("disabled","disabled");
+                    $("#number").html('#');
+                    $('#info').html("Complete");
+                    
+                }
+                var timer = setInterval("changeNum()",50);
+ 
+                setTimeout(function(){
+                    clearInterval(timer);    
+                    $("#number").html(num[tt]);
+                    
+                    tt++;
+                },1000);
+            });
+        })
+        
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span12">
+                <button id="header" class="btn btn-default">NTUSTSG</button>
+                <div id="number">∞</div>
+                <input type="button" class="btn btn-primary" value="Rock and Roll" id="start">
+                <button id="info" class="btn btn-default"><span class="num"></span> Team Left</button>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
